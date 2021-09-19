@@ -1,9 +1,9 @@
-console.log("hello world!");
+console.log("hello world");
 
-function sum(param) {
-  // TODO: 請從 1 + 2 + 3 + .... + param
+function sum(a) {
+  let result = 0;
+  for (i = 0; i <= a; i++) {
+    result = result + i;
+  }
+  console.log(result);
 }
-
-console.log(sum(3)); // 6
-console.log(sum(6)); // 21
-console.log(sum(10)); // 55
