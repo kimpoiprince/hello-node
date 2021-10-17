@@ -3,12 +3,15 @@ const moment = require("moment");
 const fs = require("fs/promises");
 const mysql = require("mysql");
 
+require("dotenv").config();
+
+// 利用 process.env.xxxx 來存取設定檔
 const connection = mysql.createConnection({
-  host: "localhost", // 本機 127.0.0.1
-  // port: 3306, // 埠號 mysql 預設就是 3306
-  user: "LIN",
-  password: "a820120",
-  database: "nodetest",
+  host: process.env.DB_HOST, // 本機 127.0.0.1
+  port: process.env.DB_PORT, // 埠號 mysql 預設就是 3306
+  user: process.env.DB_USER,
+  password: process.env.DB_PWD,
+  database: process.env.DB_NAME,
 });
 
 connection.connect();
