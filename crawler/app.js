@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 let stockCode = "2330";
-let today = "20211017";
+let today = "20211015";
 let format = "json";
 
 // "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=" + format + "&date=" + today + "&stockNo=" + stockCode
