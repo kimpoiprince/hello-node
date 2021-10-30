@@ -1,20 +1,47 @@
 const express = require("express");
+require("dotenv").config();
+const mysql = require("mysql");
+const Promise = require("bluebird");
 
-let app = express(); // application
+let app = express();
 
-// 路由 route / router
-// app.Method(Path, Handler)
-// Method: GET, POST, PUT, DELETE, PATCH, ...
-// Handler 是一個函式，會有兩個參數 request, response
-app.get("/", (req, res) => {
-  res.send("我是 Express 首頁");
+var connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
-app.get("/member", (req, res) => {
-  res.send("我是會員頁");
+connection = Promise.promisifyAll(connection);
+
+app.listen(3006, () => {
+  connection.connect();
+  console.log("express app 啟動!!!");
 });
 
-// 3001 port
-app.listen(3001, () => {
-  console.log("express app 啟動了喔");
+// app.use((req, res, next) => {
+//   console.log("hello!");
+//   next();
+// });
+
+// app.use((req, res, next) => {
+//   let current = new Date();
+//   console.log(`在${current}時有人
+//   來訪!!!`);
+//   next();
+// });
+
+app.get("/api/todos", async (req, res) => {
+  let data = await connection.queryAsync("SELECT * FROM todos");
+  res.json(data);
+});
+app.get("/api/members", async (req, res) => {
+  let data = await connection.queryAsync("SELECT * FROM members");
+  res.json(data);
+});
+
+app.use((req, res, next) => {
+  console.log("not found");
+  res.status(404).send("fuck you!");
+  next();
 });
